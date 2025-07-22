@@ -1,6 +1,6 @@
 {
   "name": "gen-types-enums-psql-schema",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "A CLI tool to automatically generate TypeScript types and enums from any PostgreSQL DB schema",
   "main": "./index.ts",
   "type": "module",
