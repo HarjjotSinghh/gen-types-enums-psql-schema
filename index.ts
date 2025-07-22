@@ -1,10 +1,10 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * CLI tool to fetch any schema from the database and generate TypeScript types and enums.
  *
  * Usage:
- *   gen-types-enums-postgres <schema_name>                    # Full process - pull schema + generate types
- *   gen-types-enums-postgres <schema_name> --types-only       # Only generate types from existing schema
+ *   gen-types-enums-psql-schema <schema_name>                    # Full process - pull schema + generate types
+ *   gen-types-enums-psql-schema <schema_name> --types-only       # Only generate types from existing schema
  *
  * Arguments:
  *   schema_name       Name of the schema to process (required)
@@ -36,11 +36,11 @@ const showHelp = args.includes('--help') || args.includes('-h');
 // Show help if requested or if no schema name provided
 if (showHelp || !schemaNameArg) {
   console.log(`
-${c.bold.cyan('gen-types-enums-postgres')} - PostgreSQL Schema Types & Enums Generator
+${c.bold.cyan('gen-types-enums-psql-schema')} - PostgreSQL Schema Types & Enums Generator
 
 ${c.bold('Usage:')}
-  gen-types-enums-postgres <schema_name>                    # Full process - pull schema + generate types
-  gen-types-enums-postgres <schema_name> --types-only       # Only generate types from existing schema
+  gen-types-enums-psql-schema <schema_name>                    # Full process - pull schema + generate types
+  gen-types-enums-psql-schema <schema_name> --types-only       # Only generate types from existing schema
 
 ${c.bold('Arguments:')}
   ${c.cyan('schema_name')}       Name of the schema to process (required)
@@ -50,9 +50,9 @@ ${c.bold('Options:')}
   ${c.cyan('--help, -h')}        Show this help message
 
 ${c.bold('Examples:')}
-  gen-types-enums-postgres public
-  gen-types-enums-postgres user_management --types-only
-  gen-types-enums-postgres analytics
+  gen-types-enums-psql-schema public
+  gen-types-enums-psql-schema user_management --types-only
+  gen-types-enums-psql-schema analytics
 
 ${c.bold('Environment Variables:')}
   ${c.cyan('DATABASE_URL')}      PostgreSQL connection string (required for schema pull)
@@ -532,7 +532,7 @@ async function main() {
 
     // Create the TypeScript types content
     let typesContent = `/**
- * This file is auto-generated from the database schema using gen-types-enums-postgres.
+ * This file is auto-generated from the database schema using gen-types-enums-psql-schema.
  * Do not modify this file directly - instead, run the script again.
  * 
  * Generated at: ${new Date().toISOString()}

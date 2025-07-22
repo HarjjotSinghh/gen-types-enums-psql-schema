@@ -1,34 +1,59 @@
 # PostgreSQL Schema Types & Enums Generator
 
-A CLI tool to automatically generate TypeScript types and enums from any PostgreSQL DB schema.
+A CLI tool to automatically generate TypeScript types and enums from any PostgreSQL DB schema using Drizzle ORM.
 
-## Installation & Usage
+## Installation
+
+### Global Installation (Recommended)
 
 ```bash
-# Install dependencies
-bun install
+npm install -g gen-types-enums-psql-schema
+```
 
+### Local Installation
+
+```bash
+npm install gen-types-enums-psql-schema
+npx gen-types-enums-psql-schema --help
+```
+
+### Using with Bun
+
+```bash
+bun add gen-types-enums-psql-schema
+bunx gen-types-enums-psql-schema --help
+```
+
+## Prerequisites
+
+This tool requires:
+- **Node.js 18+** or **Bun**
+- A PostgreSQL database with the schema you want to generate types for
+
+## Usage
+
+```bash
 # Full process - pull schema from database and generate types
-gen-types-enums-postgres <schema_name>
+gen-types-enums-psql-schema <schema_name>
 
 # Only regenerate types from existing schema (without querying the database)
-gen-types-enums-postgres <schema_name> --types-only
+gen-types-enums-psql-schema <schema_name> --types-only
 
 # Show help
-gen-types-enums-postgres --help
+gen-types-enums-psql-schema --help
 ```
 
 ### Examples
 
 ```bash
 # Generate types for the public schema
-gen-types-enums-postgres public
+gen-types-enums-psql-schema public
 
 # Generate types for a user management schema  
-gen-types-enums-postgres user_management
+gen-types-enums-psql-schema user_management
 
 # Regenerate types only (skip database pull)
-gen-types-enums-postgres analytics --types-only
+gen-types-enums-psql-schema analytics --types-only
 ```
 
 ## Configuration
@@ -36,6 +61,11 @@ gen-types-enums-postgres analytics --types-only
 ### Environment Variables
 
 - `DATABASE_URL` - PostgreSQL connection string (required for schema pull)
+
+Example:
+```bash
+export DATABASE_URL="postgresql://username:password@localhost:5432/database_name"
+```
 
 ### Database Config Files
 
@@ -47,7 +77,7 @@ If a config file already exists, it will be skipped to avoid overwriting any cus
 
 ## What it does
 
-### Full Mode (`gen-types-enums-postgres <schema_name>`)
+### Full Mode (`gen-types-enums-psql-schema <schema_name>`)
 
 1. Pulls the entire database schema with the provided schema-specific configuration
 2. Processes the generated schema to create TypeScript enums and types
@@ -56,7 +86,7 @@ If a config file already exists, it will be skipped to avoid overwriting any cus
 5. Cleans up the migrations directory after processing
 6. Runs ESLint to fix any style issues
 
-### Types-Only Mode (`gen-types-enums-postgres <schema_name> --types-only`)
+### Types-Only Mode (`gen-types-enums-psql-schema <schema_name> --types-only`)
 
 1. Skips the database pull step
 2. Looks for schema.ts in the schema root directory first, then falls back to migrations directory
@@ -103,20 +133,22 @@ The generated files follow this structure:
     └── index.ts
 ```
 
-# Contibute
+## Contibute
 
 If anyone wants to contribute, you can introduce the following flags/featrues:
 
-- `all` - pulls all schemas
-
-- `remove_schema` - removes the schema.ts file after the enums are generated, this would also remove the types.ts file
-
-- `disable_eslint` - disables the last eslint step
-
-To contribute further, create a `.sh` script that does this, would be super useful.
+- `--all` flag to pull all schemas
+- `--remove-schema` flag to remove schema.ts after enum generation
+- `--disable-eslint` flag to skip ESLint step
+- Shell script wrapper for easier usage
 
 PS: I'm just using this section as my pesonal to-do list lol
 
-# Running Into Errors?
+## Running Into Errors?
 
-Feel free to reach me out [here](https://www.harjotrana.com) or just mail me at [me@harjotrana.com](mailto:me@harjotrana.com)
+Feel free to reach me out [here](https://www.harjotrana.com) or just mail me at [me@harjotrana.com](mailto:me@harjotrana.com).
+Check the [GitHub Issues](https://github.com/harjjotsinghh/gen-types-enums-psql-schema/issues). If an issue does not exist, feel free to create a new one.
+
+## License
+
+MIT © [Harjot Singh Rana](https://harjotrana.com)
