@@ -39,6 +39,15 @@ gen-types-enums-psql-schema <schema_name>
 # Only regenerate types from existing schema (without querying the database)
 gen-types-enums-psql-schema <schema_name> --types-only
 
+# Pull and generate types for all schemas
+gen-types-enums-psql-schema --all
+
+# Remove schema.ts after enum generation
+gen-types-enums-psql-schema <schema_name> --remove-schema
+
+# Skip ESLint step
+gen-types-enums-psql-schema <schema_name> --disable-eslint
+
 # Show help
 gen-types-enums-psql-schema --help
 ```
@@ -49,12 +58,25 @@ gen-types-enums-psql-schema --help
 # Generate types for the public schema
 gen-types-enums-psql-schema public
 
-# Generate types for a user management schema  
-gen-types-enums-psql-schema user_management
+# Generate types for all schemas
+gen-types-enums-psql-schema --all
 
-# Regenerate types only (skip database pull)
-gen-types-enums-psql-schema analytics --types-only
+# Remove schema.ts after generation
+gen-types-enums-psql-schema public --remove-schema
+
+# Skip ESLint step
+gen-types-enums-psql-schema public --disable-eslint
 ```
+
+## Shell Script Wrapper
+
+A shell script wrapper is provided for easier usage. You can run:
+
+```bash
+./gen-types-enums.sh <schema_name> [flags]
+```
+
+This script will automatically call the CLI with the correct arguments and environment setup.
 
 ## Configuration
 
@@ -135,14 +157,14 @@ The generated files follow this structure:
 
 ## Contibute
 
-If anyone wants to contribute, you can introduce the following flags/featrues:
+The following features have been implemented:
 
 - `--all` flag to pull all schemas
 - `--remove-schema` flag to remove schema.ts after enum generation
 - `--disable-eslint` flag to skip ESLint step
 - Shell script wrapper for easier usage
 
-PS: I'm just using this section as my pesonal to-do list lol
+Feel free to suggest more features or improvements!
 
 ## Running Into Errors?
 
