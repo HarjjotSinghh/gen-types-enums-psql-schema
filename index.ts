@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-// @ts-nocheck
 /**
  * CLI tool to fetch any schema from the database and generate TypeScript types and enums.
  *
@@ -27,6 +26,12 @@ import { promises as fs } from 'fs';
 import ora from 'ora';
 import { join } from 'path';
 import { promisify } from 'util';
+import dotenv from 'dotenv';
+
+dotenv.config({
+  path: ['.env', 'dist/.env', '../.env'],
+  quiet: true,
+});
 
 if (!process.env.DATABASE_URL) {
   throw new Error('DATABASE_URL environment variable is required. Please read the README.md file for instructions on how to set it up.');
@@ -75,7 +80,7 @@ ${c.bold('Examples:')}
 }
 
 // At this point, schemaName is guaranteed to exist
-const schemaName: string = schemaNameArg;
+const schemaName: string = schemaNameArg!;
 
 // Path constants - now dynamic based on schema name
 const CONFIG_FILE = `./db.config.${schemaName}.ts`;
@@ -374,19 +379,19 @@ async function processSchema(schema: string) {
 
   // Set schemaName and all relevant variables for this schema
   const schemaName: string = schema;
-  const CONFIG_FILE = `./db.config.${schemaName}.ts`;
-  const TEMPLATE_CONFIG_FILE = './db.config.ts';
-  const MIGRATIONS_DIR = `./schemas/${schemaName}/migrations`;
-  const SCHEMA_FILE = join(MIGRATIONS_DIR, 'schema.ts');
-  const FINAL_SCHEMA_FILE = `./schemas/${schemaName}/schema.ts`;
-  const META_DIR = join(MIGRATIONS_DIR, 'meta');
-  const TYPES_FILE = `./schemas/${schemaName}/types.ts`;
-  const INDEX_FILE = `./schemas/${schemaName}/index.ts`;
-  const ENUMS_FILE = `./schemas/${schemaName}/enums.ts`;
+  const CONFIG_FILE_ORIGINAL = `./db.config.${schemaName}.ts`;
+  const TEMPLATE_CONFIG_FILE_ORIGINAL = './db.config.ts';
+  const MIGRATIONS_DIR_ORIGINAL = `./schemas/${schemaName}/migrations`;
+  const SCHEMA_FILE_ORIGINAL = join(MIGRATIONS_DIR_ORIGINAL, 'schema.ts');
+  const FINAL_SCHEMA_FILE_ORIGINAL = `./schemas/${schemaName}/schema.ts`;
+  const META_DIR_ORIGINAL = join(MIGRATIONS_DIR_ORIGINAL, 'meta');
+  const TYPES_FILE_ORIGINAL = `./schemas/${schemaName}/types.ts`;
+  const INDEX_FILE_ORIGINAL = `./schemas/${schemaName}/index.ts`;
+  const ENUMS_FILE_ORIGINAL = `./schemas/${schemaName}/enums.ts`;
 
   // Schema variable name mappings
-  const SCHEMA_VAR_NAME = `${schemaName}Schema`;
-  const SCHEMA_SUFFIX = schemaName.charAt(0).toUpperCase() + schemaName.slice(1).replace(/_([a-z])/g, (_, letter) => letter.toUpperCase()) + 'S';
+  const SCHEMA_VAR_NAME_ORIGINAL = `${schemaName}Schema`;
+  const SCHEMA_SUFFIX_ORIGINAL = schemaName.charAt(0).toUpperCase() + schemaName.slice(1).replace(/_([a-z])/g, (_, letter) => letter.toUpperCase()) + 'S';
 
   // Path constants - now dynamic based on schema name
   const CONFIG_FILE = `./db.config.${schemaName}.ts`;
